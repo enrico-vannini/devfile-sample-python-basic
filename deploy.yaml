@@ -27,7 +27,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: my-python
+  name: my-python-service
 spec:
 ports:
   - name: http-8081
@@ -36,3 +36,16 @@ ports:
     targetPort: 8081
 selector:
   app: python-app
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: my-python-route
+spec:
+  host: my-python-exampleproject.apps.eva-ocp-4-10.cp.fyre.ibm.com
+  to:
+    kind: Service
+    name: my-python-service
+    weight: 100
+  port:
+    targetPort: http-8081
